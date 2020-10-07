@@ -9,7 +9,7 @@ DiffWave is a fast, high-quality neural vocoder and waveform synthesizer. It sta
 Basic usage:
 
 ```python
-from diffwave.inference import predict as diffwave_predict
+from inference import predict as diffwave_predict
 
 model_dir = '/path/to/model/dir'
 spectrogram = # get your hands on a spectrogram in [N,C,W] format
@@ -20,7 +20,7 @@ audio, sample_rate = diffwave_predict(spectrogram, model_dir)
 
 ### Inference CLI
 ```
-python -m diffwave.inference /path/to/model /path/to/spectrogram -o output.wav
+python -m inference.py /path/to/model /path/to/spectrogram -o output.wav
 ```
 
 
