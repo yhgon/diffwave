@@ -25,7 +25,7 @@ from concurrent.futures import ProcessPoolExecutor
 from glob import glob
 from tqdm import tqdm
 import os
-
+import time
 from params import params
 
 
@@ -65,10 +65,18 @@ def transform(args, wavefilepath):
 
 def main(args):
     lists = sorted(glob(os.path.join(args.wav_dir, '*.wav')) ) 
-    print( len(lists) )
+    num_dataset = len(lists) 
+    print("process {} wave files in {}".format(num_dataset, args.wav_dir)  )
+    tic0 = time.time()
     for i, wavefilepath in enumerate(lists):
-        print("DEBUG", i, wavefilepath)
+        tic = time.time()
         transform(args, wavefilepath)
+        toc = time.time()
+        dur_iter = toc-tic
+        dur_total = toc - tic0
+        if i%1000 ==0  :
+            print("DEBUG {} {}sec/iter {}/{}min ".format( i, dur_iter,  dur_total/60, ( dur_iter * num_dataset )/60  ) )
+        tic        
 
 
 if __name__ == '__main__':
