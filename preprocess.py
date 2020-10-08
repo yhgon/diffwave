@@ -33,7 +33,7 @@ def transform(args, wavefilepath):
     melfilepath = os.path.join(args.mel_dir, "{}.npy".format(filebody) )    
     #print(full_filename, full_dir, filename, filebody, ext)
 
-    audio, sr = T.load_wav(filepath)
+    audio, sr = T.load_wav(wavefilepath)
     if params.sample_rate != sr:
         raise ValueError(f'Invalid sample rate {sr}.')
     audio = torch.clamp(audio[0] / 32767.5, -1.0, 1.0)
@@ -62,7 +62,7 @@ def transform(args, wavefilepath):
 
 
 def main(args):
-    lists = sorted(glob.glob(os.path.join(args.wav_dir, '*.wav')) ) 
+    lists = sorted(glob(os.path.join(args.wav_dir, '*.wav')) ) 
     print( len(lists) )
     for i, wavefilepath in enumerate(lists):
         print("DEBUG", i, wavefilepath)
