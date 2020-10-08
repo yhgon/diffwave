@@ -39,10 +39,15 @@ params = AttrDict(
     max_grad_norm=None,
 
     # Data params
-    sample_rate=22050,
-    n_mels=80,
-    n_fft=1024,
-    hop_samples=256,
+    sample_rate=22050,  # torchaudio default 16000    
+    n_fft=1024,          # torchaudio default 400
+    win_length=1024,     # torchaudio default n_fft
+    hop_length=256,      # torchaudio default win_length/2
+    power=2.0,           # torchaudio default 2.0
+    n_mels=80,           # torchaudio default 0
+    f_min=0,             # torchaudio default 0
+    f_max=8000,          # torchaudio default None 
+    normalized=True,     # torchaudio default False  
     crop_mel_frames=62,  # Probably an error in paper.
 
     # Model params
