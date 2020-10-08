@@ -1,10 +1,8 @@
 {
     "model_config": {
-        "residual_layers"       :   30,  # N in paper
-        "residual_channels"     :   64,  # C in paper  
-        "dilation_cycle_length" :   10   # n in paper,  [2^0=1, 2^1=2, 2^2=4, ..., 2^9=512]
-                                         # The N residual layers are grouped into m blocks  
-                                         # so each block has n = N/m layers 
+        "residual_layers"       :   30,   
+        "residual_channels"     :   64,   
+        "dilation_cycle_length" :   10    
     },
     "data_config": {
         "sample_rate"     : 22050,
