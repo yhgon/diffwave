@@ -35,7 +35,7 @@ def transform(args, wavefilepath):
     melfilepath = os.path.join(args.mel_dir, "{}.npy".format(filebody) )    
     #print(full_filename, full_dir, filename, filebody, ext)
 
-    audio, sr = T.load_wav(wavefilepath)
+    audio, sr = T.load(wavefilepath)
     if params.sample_rate != sr:
         raise ValueError(f'Invalid sample rate {sr}.')
     audio = torch.clamp(audio[0] / 32767.5, -1.0, 1.0)
@@ -75,7 +75,7 @@ def main(args):
         dur_iter = toc-tic
         dur_total = toc - tic0
         if i%1000 ==0  :
-            print("DEBUG {} {}sec/iter {}/{}min ".format( i, dur_iter,  dur_total/60, ( dur_iter * num_dataset )/60  ) )
+            print("DEBUG {} {:4.1f}sec/iter {:4.1f}/{:4.1f}min ".format( i, dur_iter,  dur_total/60, ( dur_iter * num_dataset )/60  ) )
         tic        
 
 
