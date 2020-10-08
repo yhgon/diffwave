@@ -33,15 +33,15 @@ def transform(filename):
   audio = torch.clamp(audio[0] / 32767.5, -1.0, 1.0)
 
   mel_args = {
-      'sample_rate': sr,
-      'win_length': params.hop_samples * 4,
-      'hop_length': params.hop_samples,
-      'n_fft': params.n_fft,
-      'f_min': 20.0,
-      'f_max': sr / 2.0,
-      'n_mels': params.n_mels,
-      'power': 1.0,
-      'normalized': True,
+      'sample_rate': params.sr,         # torchaudio default 16000
+      'n_fft': params.n_fft,            # torchaudio default 400
+      'win_length': params.win_length,  # torchaudio default n_fft
+      'hop_length': params.hop_length,  # torchaudio default win_length/2
+      'f_min': params.f_min,            # torchaudio default 0
+      'f_max': params.f_max,            # torchaudio default None  
+      'n_mels': params.n_mels,          # torchaudio default 128
+      'power': params.power,            # torchaudio default 2.0
+      'normalized': params.normalized,  # torchaudio default False
   }
   mel_spec_transform = TT.MelSpectrogram(**mel_args)
 
