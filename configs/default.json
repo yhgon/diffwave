@@ -1,0 +1,42 @@
+{
+    "model_config": {
+        "residual_layers"       :   30,
+        "residual_channels"     :   64,
+        "dilation_cycle_length" :   10
+    },
+    "data_config": {
+        "sample_rate"     : 22050,
+        "n_fft"           :  1024,
+        "win_length"      :  1024,
+        "hop_length"      :   256,
+        "f_min"           :     0,
+        "f_max"           :  8000,
+        "n_mels"          :    80,
+        "power"           :   2.0,
+        "normalized"      :  True,
+        "crop_mel_frames" : 62
+    },
+    "training_config": {
+        "logdir": "logs/default",
+        "continue_training": false,
+        "train_filelist_path": "filelists/train.txt",
+        "test_filelist_path": "filelists/test.txt",
+        "batch_size": 48,
+        "lr": 1e-3,
+        "grad_clip_threshold": 1,
+        "scheduler_step_size": 1,
+        "scheduler_gamma": 0.95,
+        "n_epoch": 100000000,
+        "n_samples_to_test": 4,
+        "test_interval": 1,
+
+        "train_noise_schedule": {
+            "n_iter": 1000,
+            "betas_range": [1e-6, 0.01]
+        },
+        "test_noise_schedule": {
+            "n_iter": 50,
+            "betas_range": [1e-4, 0.05]
+        }
+    }
+}
