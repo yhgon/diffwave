@@ -23,7 +23,7 @@ from learner import train, train_distributed
 from params import params
 
 
-  def parse_args(parser):
+def parse_args(parser):
   """
   Parse commandline arguments.
   """
