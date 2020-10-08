@@ -16,23 +16,25 @@
         "normalized"      :  true,
         "crop_mel_frames" : 62
     },
-    "training_config": {
-        "logdir": "logs/default",
-        "continue_training": false,
-        "train_filelist_path": "filelists/train.txt",
-        "test_filelist_path": "filelists/test.txt",
-        "batch_size": 48,
-        "lr": 1e-3,
-        "grad_clip_threshold": 1,
-        "scheduler_step_size": 1,
-        "scheduler_gamma": 0.95,
-        "n_epoch": 100000000,
-        "n_samples_to_test": 4,
-        "test_interval": 1,
-
-        "noise_schedule": {
-            "n_iter": 50,
-            "betas_range": [1e-4, 0.05]
-        }
-    }
+    "train_config": {
+        "logdir"                 : "logs/try1",
+        "continue_training"      : false,
+        "train_wavfilelist_path" : "filelists/trainwav.txt",
+        "train_melfilelist_path" : "filelists/trainmel.txt",        
+        "test_wavfilelist_path"  : "filelists/testwav.txt",
+        "test_melfilelist_path"  : "filelists/testmel.txt",        
+        "batch_size"             : 48,
+        "lr"                     : 1e-3,
+        "grad_clip_threshold"    : 1,
+        "scheduler_step_size"    : 1,
+        "scheduler_gamma"        : 0.95,
+        "n_epoch"                : 100000,
+        "n_samples_to_test"      : 4,
+        "test_interval"          : 1
+    },
+    "noise_schedule": {
+        "steps" : 50,
+        "start" : 1e-4, 
+        "end"   : 0.05 
+    }    
 }
