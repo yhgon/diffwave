@@ -24,7 +24,7 @@ from tqdm import tqdm
 
 from dataset import from_path as dataset_from_path
 from model import DiffWave
-from params import AttrDict
+#from params import AttrDict
 
 
 def _nested_map(struct, map_fn):
@@ -38,21 +38,26 @@ def _nested_map(struct, map_fn):
 
 
 class DiffWaveLearner:
-  def __init__(self, model_dir, model, dataset, optimizer, params, *args, **kwargs):
+  def __init__(self, model_dir, model, dataset, optimizer, config, *args, **kwargs):
     os.makedirs(model_dir, exist_ok=True)
     self.model_dir = model_dir
     self.model = model
     self.dataset = dataset
     self.optimizer = optimizer
-    self.params = params
+    self.config = config
     self.autocast = torch.cuda.amp.autocast(enabled=kwargs.get('fp16', False))
     self.scaler = torch.cuda.amp.GradScaler(enabled=kwargs.get('fp16', False))
     self.step = 0
     self.is_master = True
-
-    beta = np.array(self.params.noise_schedule)
+    
+    beta = torch.linspace(steps=self.config.noise_schedule.steps, start=self.config.noise_schedule.start,  end=self.config.noise_schedule.end  ) 
+    alpha = 1 - beta
     noise_level = np.cumprod(1 - beta)
+    alphas_cumprod = alphas.cumprod(dim=0)
+    
     self.noise_level = torch.tensor(noise_level.astype(np.float32))
+    
+    
     self.loss_fn = nn.L1Loss()
     self.summary_writer = None
 
