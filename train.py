@@ -82,10 +82,10 @@ def main(args, config):
     params.batch_size = params.batch_size // replica_count
     port = _get_free_port()
     print("DEBUG: multiGPU run")
-    spawn(train_distributed, args=(replica_count, port, args, params), nprocs=replica_count, join=True)
+    spawn(train_distributed, args=(replica_count, port, args, config), nprocs=replica_count, join=True)
   else:
     print("DEBUG: single GPU run")
-    train(args, params)
+    train(args, config)
 
 
 if __name__ == '__main__': 
