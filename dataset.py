@@ -36,9 +36,10 @@ class NumpyDataset(torch.utils.data.Dataset):
   def __init__(self, args, params):
     super().__init__()
     self.filenames = []
-    self.wav_dir = args.wav_dir
-    self.mel_dir = args.mel_dir
+    self.wav_dir     = args.wav_dir
+    self.mel_dir     = args.mel_dir
     self.mel_type    = args.mel_type
+    self.sample_rate = params.sample_rate
     self.filenames = sorted(glob(os.path.join(self.wav_dir, '*.wav')) )     
         
   def __len__(self):
@@ -46,13 +47,15 @@ class NumpyDataset(torch.utils.data.Dataset):
 
   def __getitem__(self, idx):
     wav_filename = self.filenames[idx]
-    signal, _ = torchaudio.load(wav_filename)    
+    audio, sr = torchaudio.load(wav_filename)
+    if self.sample_rate != sr:
+        raise ValueError("mismatch sampling rate params{} audiofile{}".format(self.sample_rate, sr)")    
 
     mel_filename = get_mel_filename(wav_filename, self.mel_dir)    
     spectrogram = np.load(mel_filename)
         
     return {
-        'audio': signal[0] / 32767.5,
+        'audio': torch.clamp(audio[0] / 32767.5, -1.0, 1.0)  ,
         'spectrogram': spectrogram.T
     }
 
