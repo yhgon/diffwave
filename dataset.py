@@ -23,26 +23,35 @@ from glob import glob
 from torch.utils.data.distributed import DistributedSampler
 
 
+def get_mel_filename(filenames,mel_dir):
+    full_dir, filename = os.path.split(audio_filename) 
+    filebody, ext = os.path.splitext(filename)
+    wavfilepath = audio_filename
+    melfilepath = os.path.join(mel_dir, "{}.npy".format(filebody) )  
+    return melfilepath
+  
+
 class NumpyDataset(torch.utils.data.Dataset):
-  def __init__(self, paths):
+  def __init__(self, args):
     super().__init__()
     self.filenames = []
-    for path in paths:
-      self.filenames += glob(f'{path}/**/*.wav', recursive=True)
+    self.wav_dir = args.wav_dir
+    self.mel_dir = args.mel_dir
+    self.filenames = sorted(glob(os.path.join(self.wav_dir, '*.wav')) ) 
 
   def __len__(self):
     return len(self.filenames)
 
   def __getitem__(self, idx):
-    audio_filename = self.filenames[idx]
-    spec_filename = f'{audio_filename}.spec.npy'
-    signal, _ = torchaudio.load_wav(audio_filename)
-    spectrogram = np.load(spec_filename)
+    wav_filename = self.filenames[idx]
+    mel_filename = get_mel_filename(wav_filename, self.mel_dir) 
+    
+    signal, _ = torchaudio.load(wav_filename)
+    spectrogram = np.load(mel_filename)
     return {
         'audio': signal[0] / 32767.5,
         'spectrogram': spectrogram.T
     }
-
 
 class Collator:
   def __init__(self, params):
@@ -74,8 +83,8 @@ class Collator:
     }
 
 
-def from_path(data_dirs, params, is_distributed=False):
-  dataset = NumpyDataset(data_dirs)
+def from_path(args, params, is_distributed=False):
+  dataset = NumpyDataset(args)
   return torch.utils.data.DataLoader(
       dataset,
       batch_size=params.batch_size,
