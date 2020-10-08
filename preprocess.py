@@ -35,7 +35,7 @@ def transform(args, wavefilepath):
 
     audio, sr = T.load_wav(filepath)
     if params.sample_rate != sr:
-    raise ValueError(f'Invalid sample rate {sr}.')
+        raise ValueError(f'Invalid sample rate {sr}.')
     audio = torch.clamp(audio[0] / 32767.5, -1.0, 1.0)
 
     mel_args = {
