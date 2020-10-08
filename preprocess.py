@@ -64,7 +64,7 @@ def transform(args, wavefilepath):
 def main(args):
     lists = sorted(glob.glob(os.path.join(args.wav_dir, '*.wav')) ) 
     print( len(lists) )
-    for i, wavefilepath in enumerate(lists) ):
+    for i, wavefilepath in enumerate(lists):
         print("DEBUG", i, wavefilepath)
         transform(args, wavefilepath)
 
