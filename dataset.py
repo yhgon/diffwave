@@ -49,7 +49,7 @@ class NumpyDataset(torch.utils.data.Dataset):
     wav_filename = self.filenames[idx]
     audio, sr = torchaudio.load(wav_filename)
     if self.sample_rate != sr:
-        raise ValueError("mismatch sampling rate params{} audiofile{}".format(self.sample_rate, sr)")    
+        raise ValueError("mismatch sampling rate params{} audiofile{}".format(self.sample_rate, sr) )    
 
     mel_filename = get_mel_filename(wav_filename, self.mel_dir)    
     spectrogram = np.load(mel_filename)
